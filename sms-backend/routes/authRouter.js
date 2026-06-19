@@ -105,9 +105,10 @@ router.post('/', async (req, res) => {
         await sendEmail(
             user.email,
             user.verificationToken,
-        );
+        )
 
-        console.log("Email sent");
+        console.log("Email Process Started");
+
         return res.status(201).json({
             message: "Account created successfully"
         });
