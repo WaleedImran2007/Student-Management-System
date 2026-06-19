@@ -4,7 +4,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async (email, token) => {
     try {
-        await resend.emails.send({
+
+        const response = await resend.emails.send({
             from: 'onboarding@resend.dev',
             to: email,
             subject: 'Verify your Account',
@@ -19,7 +20,8 @@ const sendEmail = async (email, token) => {
             `
         });
 
-        console.log("EMAIL SENT SUCCESSFULLY");
+        console.log("RESEND RESPONSE:");
+        console.log(response);
 
     } catch(err) {
         console.log("EMAIL FAILED");
