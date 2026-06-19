@@ -1,4 +1,4 @@
-import '../css/loader.css';
+import '../css/Loader.css';
 
 function Loader() {
     return (
