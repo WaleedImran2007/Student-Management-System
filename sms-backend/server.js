@@ -21,7 +21,7 @@ const app = express();
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://student-management-system-gray-psi.vercel.app/",
+        "https://student-management-system-gray-psi.vercel.app",
     ],
 }));
 
