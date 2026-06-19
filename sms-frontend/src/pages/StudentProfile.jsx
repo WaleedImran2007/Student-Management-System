@@ -4,6 +4,7 @@ import hero from "../assets/hero.png";
 import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
+import Loader from "../components/Loader";
 
 const StudentProfile = () => {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ const StudentProfile = () => {
 
     const [student, setStudent] = useState({});
     const [courseArray, setCourseArray] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -45,6 +47,8 @@ const StudentProfile = () => {
                 if(err.response?.status === 403) {
                     navigate('/no-permission');
                 }
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -109,6 +113,8 @@ const StudentProfile = () => {
     })
 
     const cgpa = (totalQualityPoints / totalCreditHours).toFixed(2);
+
+    if(loading) return <Loader />
 
     return <>
         <div className="profile-container">

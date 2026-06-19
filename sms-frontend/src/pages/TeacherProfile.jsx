@@ -3,6 +3,7 @@ import '../css/studentProfile.css';
 import hero from "../assets/hero.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 const TeacherProfile = () => {
 
@@ -15,6 +16,7 @@ const TeacherProfile = () => {
     const teacherAPI = `${import.meta.env.VITE_API_URL}/api/teachers`;
 
     const [teacher, setTeacher] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -31,6 +33,8 @@ const TeacherProfile = () => {
 
             } catch(err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -38,6 +42,8 @@ const TeacherProfile = () => {
 
     }, [profileID]);
 
+
+    if(loading) return <Loader />
 
     return (
         <>

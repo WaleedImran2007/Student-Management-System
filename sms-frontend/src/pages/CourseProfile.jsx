@@ -3,6 +3,7 @@ import "../css/courseProfile.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import Loader from "../components/Loader";
 
 const CourseProfile = () => {
     const location = useLocation();
@@ -25,6 +26,7 @@ const CourseProfile = () => {
 
     const [studentArray, setStudentArray] = useState([]);
     const [course, setCourse] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchCourses = async () => {
@@ -77,6 +79,8 @@ const CourseProfile = () => {
         fetchCourses();
         userRole === 'Student' ? fetchMyStudent() : fetchStudents();
 
+        setLoading(false);
+
     }, [courseCode, userID, token, userRole]);
 
     const enrolledStudents = studentArray.filter(student =>
@@ -104,6 +108,8 @@ const CourseProfile = () => {
         averageMarks = (totalMarks / enrolledStudents.length).toFixed(2);
     }
 
+
+    if(loading) return <Loader />
 
     return (
         <div className="course-profile-container">
