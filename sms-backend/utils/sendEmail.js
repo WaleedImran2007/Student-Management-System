@@ -1,32 +1,34 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import nodemailer from 'nodemailer';
 
 const sendEmail = async (email, token) => {
-    try {
+    const transporter = nodemailer.createTransport({
+        host: 'smtp-relay.brevo.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.BREVO_USER,
+            pass: process.env.BREVO_PASS,
+        }
+    });
 
-        const response = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+    try {
+        await transporter.sendMail({
+            from: process.env.BREVO_USER,
             to: email,
             subject: 'Verify your Account',
-
             html: `
                 <h2>Welcome</h2>
                 <p>Click below to verify your account on Student Management System</p>
-
                 <a href="${process.env.FRONTEND_URL}/verify/${token}">
                     Verify Email
                 </a>
             `
         });
-
-        console.log("RESEND RESPONSE:");
-        console.log(response);
-
-    } catch(err) {
+        console.log("EMAIL SENT SUCCESSFULLY");
+    } catch (err) {
         console.log("EMAIL FAILED");
         console.log(err);
     }
-}
+};
 
 export default sendEmail;
