@@ -11,7 +11,7 @@ const sendEmail = async (email, token) => {
 
 
     try {
-
+        console.log("FRONTEND_URL =", process.env.FRONTEND_URL);
         await transporter.sendMail({
 
             from: process.env.EMAIL,
@@ -22,7 +22,7 @@ const sendEmail = async (email, token) => {
                 <h2>Welcome</h2>
                 <p>Click below to verify your account on Student Management System</p>
 
-                <a href="http://localhost:5173/verify/${token}">
+                <a href="${process.env.FRONTEND_URL}/verify/${token}">
                     Verify Email
                 </a>
             `

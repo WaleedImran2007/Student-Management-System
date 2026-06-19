@@ -98,13 +98,16 @@ router.post('/', async (req, res) => {
             isVerified: false,
         });
 
+        console.log("User saved");
         await user.save();
 
+        console.log("About to send email");
         await sendEmail(
             user.email,
             user.verificationToken,
         );
 
+        console.log("Email sent");
         return res.status(201).json({
             message: "Account created successfully"
         });
