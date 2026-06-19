@@ -5,7 +5,7 @@ This application provides role-based access for **Admin, Teachers, and Students*
 
 ## 🚀 Live Demo
 
-🔗 [SMS: ](https://student-management-system-gray-psi.vercel.app/)
+🔗 [STUDENT MANAGEMENT SYSTEM LINK](https://student-management-system-gray-psi.vercel.app/)
 
 ---
 
