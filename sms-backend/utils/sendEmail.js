@@ -4,8 +4,8 @@ const sendEmail = async (email, token) => {
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 465,
-        secure: false,
-        family: 4,
+        secure: true,
+        family: 4
         auth: {
             user: process.env.EMAIL,
             pass: process.env.EMAIL_PASSWORD,
@@ -14,11 +14,9 @@ const sendEmail = async (email, token) => {
 
 
     try {
-        await transporter.verify();
 
-        console.log("SMTP READY");
-        
         console.log("FRONTEND_URL =", process.env.FRONTEND_URL);
+
         await transporter.sendMail({
 
             from: process.env.EMAIL,
