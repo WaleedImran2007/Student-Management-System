@@ -23,7 +23,12 @@ app.use(cors({
         "http://localhost:5173",
         "https://student-management-system-gray-psi.vercel.app",
     ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
 }));
+
+app.options("*", cors());
 
 app.use(express.json());
 
