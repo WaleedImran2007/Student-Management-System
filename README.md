@@ -5,8 +5,7 @@ This application provides role-based access for **Admin, Teachers, and Students*
 
 ## 🚀 Live Demo
 
-🔗 Frontend: YOUR_FRONTEND_URL
-🔗 Backend API: YOUR_BACKEND_URL
+🔗 [SMS: ](https://student-management-system-gray-psi.vercel.app/)
 
 ---
 
