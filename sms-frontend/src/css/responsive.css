@@ -1,0 +1,259 @@
+/* =========================================
+   HAMBURGER BUTTON
+   ========================================= */
+
+.hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: fixed;
+    top: 20px;
+    left: 14px;
+    z-index: 1100;
+}
+
+.hamburger-btn span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #1e293b;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+    transform-origin: left center;
+}
+
+.hamburger-btn.hamburger-open span:nth-child(1) {
+    transform: rotate(45deg) translateY(-1px);
+}
+.hamburger-btn.hamburger-open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.hamburger-btn.hamburger-open span:nth-child(3) {
+    transform: rotate(-45deg) translateY(1px);
+}
+
+/* OVERLAY */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 900;
+    backdrop-filter: blur(2px);
+}
+
+
+@media (max-width: 1166px) {
+    .statistics {
+        flex-wrap: wrap;
+    }
+
+    .statistics-block {
+        width: 44% !important;
+    }
+}
+
+/* =========================================
+   LARGE SCREENS (default — no changes)
+   ========================================= */
+
+/* =========================================
+   TABLET (≤ 1024px)
+   ========================================= */
+@media (max-width: 1024px) {
+    .left-side {
+        width: 200px;
+    }
+
+    .right-side {
+        width: calc(100% - 200px);
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Show hamburger */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* Show overlay when open */
+    .sidebar-overlay {
+        display: block;
+    }
+
+    .left-side.sidebar-mobile-open {
+        left: 0;
+    }
+
+    /* Right side takes full width */
+    .right-side {
+        width: 100%;
+    }
+
+    /* TopBar */
+    .input-section {
+        padding: 10px 12px;
+        padding-left: 56px; /* room for hamburger */
+    }
+
+    /* Sidebar slide-in */
+    .left-side {
+        position: fixed;
+        top: 0;
+        left: -260px;
+        width: 240px;
+        height: 100vh;
+        z-index: 1000;
+        background: white;
+        border-right: 1px solid #e2e8f0;
+        box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+        transition: left 0.3s ease;
+        padding-top: 20px;
+        overflow-y: auto;
+    }
+}
+
+/* =========================================
+   MOBILE (≤ 768px)
+   ========================================= */
+@media (max-width: 795px) {
+    /* Dashboard */
+    .statistics {
+        flex-direction: column;
+        padding: 0 12px;
+    }
+
+    .statistics-block {
+        width: 85% !important;
+        margin: auto !important;
+    }
+
+    .attendance-trend {
+        width: 82% !important;
+        margin: auto !important;
+        margin-top: 12px !important;
+    }
+
+    .bottom-row-container {
+        flex-direction: column;
+        width: auto;
+        margin: 12px;
+    }
+
+    .student-distribution,
+    .recent-students {
+        width: 85% !important;
+        margin: auto !important;
+    }
+
+    .dashboard-heading {
+        padding-left: 12px;
+    }
+
+    /* Lists */
+    .list-header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .table-card-wrapper {
+        margin: 0 12px 24px 12px;
+        padding: 16px;
+    }
+
+    .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-box-container input {
+        max-width: 100%;
+    }
+
+    /* Auth pages */
+    .auth-card {
+        padding: 24px 20px;
+    }
+
+    /* Admin profile */
+    .admin-profile-wrapper {
+        flex-direction: column;
+        padding: 0 12px;
+    }
+
+    .admin-avatar-card {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .admin-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-stats-row {
+        flex-direction: column;
+    }
+
+    .permissions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Student/Teacher profile */
+    .profile-layout {
+        flex-direction: column;
+    }
+
+    .profile-sidebar {
+        width: 100%;
+    }
+
+    /* Courses */
+    .courses-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Forms */
+    .form-two-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   SMALL MOBILE (≤ 480px)
+   ========================================= */
+@media (max-width: 480px) {
+    .auth-card h1 {
+        font-size: 22px;
+    }
+
+    .dashboard-heading {
+        font-size: 20px;
+    }
+
+    .stats-number {
+        font-size: 20px;
+    }
+
+    .action-btn-group {
+        flex-wrap: wrap;
+    }
+
+    .add-btn-primary span {
+        display: none;
+    }
+
+    .permissions-grid {
+        grid-template-columns: 1fr;
+    }
+}

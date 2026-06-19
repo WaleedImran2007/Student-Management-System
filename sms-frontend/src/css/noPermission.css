@@ -1,0 +1,104 @@
+.permission-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+}
+
+.permission-card {
+    width: 450px;
+    height: 50%;
+    margin-top: 50px;
+    background: white;
+    border-radius: 25px;
+    padding: 45px 35px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    animation: appear 0.4s ease;
+}
+
+
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.lock-icon {
+    width: 90px;
+    height: 90px;
+
+    margin: auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    background: #fee2e2;
+    color: #dc2626;
+    font-size: 45px;
+
+}
+
+
+.permission-card h1 {
+    margin-top: 25px;
+    font-size: 36px;
+    color: #111827;
+}
+
+.permission-card p {
+    color: #6b7280;
+    line-height: 1.7;
+    margin: 20px 0 35px;
+}
+
+.permission-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.permission-actions button {
+    border: none;
+    padding: 13px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+
+.back-btn {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+
+.back-btn:hover {
+    background: #d1d5db;
+}
+
+.home-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.home-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}

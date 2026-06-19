@@ -1,0 +1,74 @@
+.grade-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+}
+
+.grade-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.grade-header i {
+    font-size: 2rem;
+    color: #2563eb;
+}
+
+.grade-header h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: #1e293b;
+}
+
+.grade-description {
+    color: #64748b;
+    margin-bottom: 25px;
+}
+
+.table-wrapper {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.grade-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grade-table thead {
+    background: #2563eb;
+    color: white;
+}
+
+.grade-table th,
+.grade-table td {
+    padding: 16px;
+    text-align: center;
+}
+
+.grade-table tbody tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.grade-table tbody tr:hover {
+    background: #eef4ff;
+}
+
+.high {
+    color: #16a34a;
+    font-weight: 700;
+}
+
+.mid {
+    color: #d97706;
+    font-weight: 700;
+}
+
+.low {
+    color: #dc2626;
+    font-weight: 700;
+}

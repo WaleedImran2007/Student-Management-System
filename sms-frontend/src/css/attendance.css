@@ -1,0 +1,95 @@
+.attendance-master-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.attendance-master-table th {
+    background-color: #F8FAFC;
+    color: #64748B;
+    font-weight: 600;
+    padding: 14px 16px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+#attendance-table-body td {
+    padding: 16px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #1E293B;
+    text-align: center;
+}
+
+#attendance-table-body td:hover {
+    background-color: #F8FAFC;
+}
+
+.date-picker-box {
+    display: flex;
+    align-items: center;
+    width: 92%;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 12px;
+    background: #FFFFFF;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.date-picker-box label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.date-picker-box input[type="date"] {
+    border: 1px solid #E2E8F0;
+    padding: 5px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1E293B;
+    font-weight: 500;
+}
+
+.attendance-select {
+    width: 100%;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #CBD5E1;
+}
+
+.select-present {
+    background-color: #DCFCE7 !important;
+    color: #16A34A !important;
+    border-color: #BBF7D0 !important;
+}
+
+.select-absent {
+    background-color: #FEE2E2 !important;
+    color: #DC2626 !important;
+    border-color: #FECACA !important;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.add-btn-primary {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    align-items: center;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    border: none;
+}

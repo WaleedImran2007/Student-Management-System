@@ -1,0 +1,29 @@
+.student-list-heading {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.students-master-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.students-master-table th {
+    background-color: #F8FAFC;
+    color: #64748B;
+    font-weight: 600;
+    padding: 14px 16px;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.students-master-table td {
+    padding: 16px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #1E293B;
+}
+
+.students-master-table tbody tr:hover {
+    background-color: #F8FAFC;
+}

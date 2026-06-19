@@ -1,0 +1,54 @@
+.form-card-wrapper {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    margin: 0px 32px 32px 32px;
+    padding: 32px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1E293B;
+    outline: none;
+    background-color: #FFFFFF;
+    transition: border 0.15s ease;
+}
+
+.form-group textarea {
+    height: 70px;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 237, 0.1);
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.form-actions button {
+    background-color: #2563EB;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    align-items: center;
+    transition: background 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
