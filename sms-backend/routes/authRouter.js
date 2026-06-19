@@ -3,7 +3,7 @@ import User from '../models/User.js';
 import Student from '../models/Student.js';
 import Teacher from '../models/Teacher.js';
 
-import sendEmail from '../utils/sendemail.js';
+import sendEmail from '../utils/sendEmail.js';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
