@@ -76,10 +76,20 @@ const CourseProfile = () => {
             }
         }
 
-        fetchCourses();
-        userRole === 'Student' ? fetchMyStudent() : fetchStudents();
+        const loadAllData = async () => {
+            try {
+                setLoading(true);
+                await fetchCourses();
+                await (userRole === 'Student' ? fetchMyStudent() : fetchStudents());
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
 
-        setLoading(false);
+        };
+
+        loadAllData();
 
     }, [courseCode, userID, token, userRole]);
 
@@ -109,7 +119,7 @@ const CourseProfile = () => {
     }
 
 
-    if(loading) return <Loader />
+    if (loading) return <Loader />
 
     return (
         <div className="course-profile-container">
