@@ -70,8 +70,6 @@ function Dashboard() {
                     }
                 });
 
-                console.log('By Department Data: ', deptRes.data);
-
                 const trendRes = await axios.get(`${API}/attendances/weeklyTrend`, {
                     headers: {
                         Authorization: `Bearer ${token}`

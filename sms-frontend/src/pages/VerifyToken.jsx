@@ -14,8 +14,6 @@ const VerifyToken = () => {
         const verify = async () => {
             try {
                 const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/verify/${token}`);
-
-                console.log(res.data);
             } catch (err) {
                 console.log(err);
             }

@@ -114,7 +114,6 @@ const CourseProfile = () => {
     });
 
     if (enrolledStudents.length > 0) {
-        console.log(totalMarks);
         averageMarks = (totalMarks / enrolledStudents.length).toFixed(2);
     }
 
