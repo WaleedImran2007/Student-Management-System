@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import '../css/auth.css';
@@ -6,10 +6,13 @@ import '../css/common.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import axios from 'axios';
+import { AuthContext } from '../store/AuthContext';
 
 const Signup = () => {
     const navigate = useNavigate();
     const authAPI = `${import.meta.env.VITE_API_URL}/api/auth`;
+
+    const { token } = useContext(AuthContext);
 
     const [form, setForm] = useState({
         username: '', email: '', password: '', confirmPassword: ''
@@ -33,8 +36,8 @@ const Signup = () => {
     }
 
     async function handleSubmit(e) {
-        setLoading(true);
         e.preventDefault();
+        setLoading(true);
 
         const newErrors = {};
 
@@ -76,6 +79,7 @@ const Signup = () => {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
@@ -101,17 +105,21 @@ const Signup = () => {
             }
 
         } catch (err) {
+            setLoading(false);
             console.log(err);
 
-            if (err.response && err.response.status === 409) {
-                setErrors({ emailError: 'This email is already registered.' });
+            if (err.response?.status === 409) {
+                const duplicatedField = err.response.data.field;
+                duplicatedField === 'username' ? (
+                    setErrors({ usernameError: 'Username Already Taken' }),
+                    alert('Username Already Taken')
+                ) : (
+                    setErrors({ emailError: 'Email Already Registered' }),
+                    alert('Email Already Registered')
+                )
             }
 
-            else if (err.response && err.response.status === 410) {
-                setErrors({ usernameError: 'This username is already taken' });
-            }
-
-            else if (err.response && err.response.status === 403) {
+            else if (err.response?.status === 403) {
                 setErrors({
                     emailError: err.response.data.message
                 });
@@ -185,8 +193,8 @@ const Signup = () => {
                     {errors.confirmPasswordError ? <span className='error-msg' id='confirmPasswordError'>{errors.confirmPasswordError}</span> : ''}
 
                     {
-                        loading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} class="btn btn-primary" type="button" disabled>
-                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                        loading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary" type="button" disabled>
+                            <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
                             <span role="status">Creating Account...</span>
                         </button> : <button type="submit">
                             Create Account

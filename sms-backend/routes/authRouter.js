@@ -58,23 +58,12 @@ router.post('/', async (req, res) => {
         const { username, email, password } = req.body;
         let role;
 
-        const userEmailExists = await User.findOne({ email });
-        const userNameExists = await User.findOne({ username });
-
-        if (userEmailExists) {
-            return res.status(409).json({ message: 'Email is already registered' });
-        }
-
-        if (userNameExists) {
-            return res.status(410).json({ message: 'Username is already taken' });
-        }
-
         let student = await Student.findOne({ email });
         let teacher = await Teacher.findOne({ email });
 
         let id = null;
 
-        if (email === (process.env.ADMIN_EMAIL)) {
+        if (email.toLowerCase() === process.env.ADMIN_EMAIL.toLowerCase()) {
             role = 'Admin';
             id = "A-01";
         }
@@ -116,12 +105,26 @@ router.post('/', async (req, res) => {
             user.verificationToken,
         );
 
-        return res.status(201).json(user);
+        return res.status(201).json({
+            message: "Account created successfully"
+        });
     }
 
     catch (err) {
-        console.log("SIGNUP ERROR:", err);
-        return res.status(500).json({ message: 'Server error', error: err.message });
+        if (err.code === 11000) {
+            const duplicateField = Object.keys(err.keyValue)[0]; // returns 'username' or 'email'
+
+            return res.status(409).json({
+                message: `This ${duplicateField} is already registered.`,
+                field: duplicateField
+            });
+        }
+
+        else {
+            console.log("SIGNUP ERROR:", err);
+            return res.status(500).json({ message: 'Server error', error: err.message });
+        }
+
     }
 
 });
