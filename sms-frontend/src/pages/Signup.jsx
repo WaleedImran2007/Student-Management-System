@@ -87,7 +87,11 @@ const Signup = () => {
 
         // SAVE USER
         try {
-            const response = await axios.post(authAPI, newUser);
+            const response = await axios.post(authAPI, newUser, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
 
             if (response.status === 201) {
                 setErrors({});
