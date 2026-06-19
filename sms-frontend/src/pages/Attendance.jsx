@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import '../css/common.css';
 import '../css/attendance.css';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 function Attendance() {
     const navigate = useNavigate();
@@ -32,6 +33,7 @@ function Attendance() {
     const [selectedDate, setSelectedDate] = useState(today);
     const [studentArray, setStudentArray] = useState();
     const [attendanceMap, setAttendanceMap] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => { // FETCHING STUDENTS
         const fetchStudents = async () => {
@@ -45,6 +47,8 @@ function Attendance() {
                 setStudentArray(studentRes.data);
             } catch (err) {
                 console.error("Failed to load students", err);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -59,6 +63,8 @@ function Attendance() {
                 setStudentArray([studentRes.data]);
             } catch (err) {
                 console.error("Failed to load students", err);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -160,6 +166,8 @@ function Attendance() {
         }
     }
 
+
+    if(loading) return <Loader />
 
     return <>
         <div className="list-header-row">

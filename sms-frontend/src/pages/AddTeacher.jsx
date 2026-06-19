@@ -29,6 +29,8 @@ function AddTeacher() {
 
     const [errors, setErrors] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
     // FETCH TEACHER BY ID
     useEffect(() => {
         const fetchTeacher = async () => {
@@ -94,7 +96,7 @@ function AddTeacher() {
         if (!gender) newErrors.genderError = 'Select a gender';
         if (!department) newErrors.deptError = 'Select a department';
         if (!designation) newErrors.designationError = 'Select a designation';
-        if(!experience) newErrors.experienceError = 'Experience is Required';
+        if (!experience) newErrors.experienceError = 'Experience is Required';
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -129,6 +131,8 @@ function AddTeacher() {
         };
 
         try {
+            setLoading(true);
+
             if (editID) {
                 await axios.put(`${API}/${editID}`, newTeacher, {
                     headers: {
@@ -149,7 +153,24 @@ function AddTeacher() {
 
             navigate('/teacher-list');
         } catch (err) {
-            console.log(err);
+            if(err.response?.status === 409) {
+                const duplicatedField = err.response.data.field;
+                duplicatedField === 'id' ? (
+                    setErrors({idError: 'ID Already Registered'}),
+                    alert('ID Already Registered')
+                ) : (
+                    setErrors({emailError: 'Email Already Registered'}),
+                    alert('Email Already Registered')
+                )
+            }
+
+            else {
+                alert('Something Went Wrong');
+                console.log(err);
+            }
+            
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -310,15 +331,21 @@ function AddTeacher() {
 
                 <div className="form-actions">
                     <center>
-                        <button
-                            type="submit"
-                            className="add-btn-primary"
-                        >
-                            <i className="fa-solid fa-save"></i>{' '}
-                            {editID
-                                ? 'Update Teacher Record'
-                                : 'Save Teacher Record'}
-                        </button>
+                        {
+                            loading ? <button style={{ display: 'flex', gap: '10px' }} class="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Saving Your Data...</span>
+                            </button> : <button
+                                type="submit"
+                                className="add-btn-primary"
+                            >
+                                <i className="fa-solid fa-save"></i>{' '}
+                                {editID
+                                    ? 'Update Teacher Record'
+                                    : 'Save Teacher Record'}
+                            </button>
+                        }
+
                     </center>
                 </div>
             </form>

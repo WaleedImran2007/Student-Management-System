@@ -5,12 +5,14 @@ import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
 import '../css/studentList.css';
+import Loader from '../components/Loader';
 
 function TeacherList() {
     const navigate = useNavigate();
     const API = `${import.meta.env.VITE_API_URL}/api/teachers`;
 
     const [teacherArray, setTeacherArray] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const token = localStorage.getItem('token');
 
@@ -35,6 +37,8 @@ function TeacherList() {
 
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -101,6 +105,8 @@ function TeacherList() {
             a.name.localeCompare(b.name)
         );
     }
+
+    if(loading) return <Loader />
 
     return (
         <>

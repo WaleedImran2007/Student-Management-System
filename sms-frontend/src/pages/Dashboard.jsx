@@ -8,6 +8,7 @@ import '../css/responsive.css';
 import { AuthContext } from '../store/AuthContext';
 import axios from 'axios';
 import { useAsyncValue } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 Chart.register(...registerables);
 
@@ -96,6 +97,8 @@ function Dashboard() {
 
 
     useEffect(() => {
+        if (!lineRef.current || !pieRef.current) return;
+
         if (lineChart.current) lineChart.current.destroy();
         if (pieChart.current) pieChart.current.destroy();
 
@@ -160,12 +163,13 @@ function Dashboard() {
         });
 
 
-
         return () => {
             if (lineChart.current) lineChart.current.destroy();
             if (pieChart.current) pieChart.current.destroy();
         };
     }, [weeklyTrend]);
+
+    if(loading) return <Loader />
 
     return <>
         <div className="dashboard-heading">DASHBOARD</div>

@@ -8,7 +8,7 @@ const router = express.Router();
 // REST APIs
 
 // GET: ALL COURSES
-router.get('/', roleMiddleware(['Admin', 'Teacher', 'Student']) , async (req, res) => {
+router.get('/', roleMiddleware(['Admin', 'Teacher', 'Student']), async (req, res) => {
     try {
         const courses = await Course.find();
         res.json(courses);
@@ -30,8 +30,8 @@ router.get('/totalCourses', roleMiddleware(['Admin', 'Teacher', 'Student']), asy
 // GET: COURSE BY CODE
 router.get('/:code', roleMiddleware(['Admin', 'Teacher', 'Student']), async (req, res) => {
     try {
-        const course = await Course.findOne( { code: req.params.code } );
-        if(!course) return res.status(404).json( {message: 'Course Not Found'} );
+        const course = await Course.findOne({ code: req.params.code });
+        if (!course) return res.status(404).json({ message: 'Course Not Found' });
         res.json(course);
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
@@ -45,12 +45,18 @@ router.post('/', roleMiddleware(['Admin']), async (req, res) => {
         await course.save();
         res.status(201).json(course);
     } catch (err) {
-        res.status(400).json( { message: err.message } );
+        if (err.code === 11000) {
+            return res.status(409).json({
+                message: `Course Code is already registered.`,
+            });
+        }
+
+        res.status(400).json({ message: err.message });
     }
 });
 
 // PUT: UPDATE COURSE
-router.put('/:code', roleMiddleware(['Admin']),  async (req, res) => {
+router.put('/:code', roleMiddleware(['Admin']), async (req, res) => {
     try {
         const updated = await Course.findOneAndUpdate(
             { code: req.params.code },
@@ -58,10 +64,16 @@ router.put('/:code', roleMiddleware(['Admin']),  async (req, res) => {
             { returnDocument: 'after' }
         )
 
-        if(!updated) return res.status(404).json({message: 'Course Not Found'});
+        if (!updated) return res.status(404).json({ message: 'Course Not Found' });
         res.json(updated);
 
     } catch (err) {
+        if (err.code === 11000) {
+            return res.status(409).json({
+                message: `Course Code is already registered.`,
+            });
+        }
+
         res.status(400).json({ message: err.message });
     }
 });
@@ -69,8 +81,8 @@ router.put('/:code', roleMiddleware(['Admin']),  async (req, res) => {
 // DELETE: DELETE COURSE
 router.delete('/:code', roleMiddleware(['Admin']), async (req, res) => {
     try {
-        const deleted = await Course.deleteOne( { code: req.params.code } );
-        if(!deleted) return res.status(404).json({ message: 'Course Not Found' });
+        const deleted = await Course.deleteOne({ code: req.params.code });
+        if (!deleted) return res.status(404).json({ message: 'Course Not Found' });
 
         res.status(200).json({ message: 'Course deleted Successfully' });
 

@@ -9,6 +9,8 @@ import axios from 'axios';
 function AddStudent() {
     const token = localStorage.getItem('token');
 
+    const [loading, setLoading] = useState(false);
+
     let userRole = null;
     if (token) {
         try {
@@ -120,6 +122,8 @@ function AddStudent() {
 
 
         try {
+            setLoading(true);
+
             if (editID) {
                 await axios.put(`${API}/${editID}`, newStudent, {
                     headers: {
@@ -136,14 +140,32 @@ function AddStudent() {
                         Authorization: `Bearer ${token}`
                     }
                 });
+
                 alert('Student added successfully!');
             }
 
-        } catch (err) {
-            console.log(err);
-        }
+            navigate('/student-list');
 
-        navigate('/student-list');
+        } catch (err) {
+            if(err.response?.status === 409) {
+                const duplicatedField = err.response.data.field;
+                duplicatedField === 'id' ? (
+                    setErrors({idError: 'ID Already Registered'}),
+                    alert('ID Already Registered')
+                ) : (
+                    setErrors({emailError: 'Email Already Registered'}),
+                    alert('Email Already Registered')
+                )
+            }
+
+            else {
+                alert('Something Went Wrong');
+                console.log(err);
+            }
+            
+        } finally {
+            setLoading(false);
+        }
     }
 
     return <>
@@ -221,9 +243,15 @@ function AddStudent() {
 
                 <div className="form-actions">
                     <center>
-                        <button type="submit" className="add-btn-primary">
-                            <i className="fa-solid fa-save"></i> {editID ? 'Update Student Record' : 'Save Student Record'}
-                        </button>
+                        {
+                            loading ? <button style={{display: 'flex', gap: '10px'}} className="btn btn-primary" type="button" disabled>
+                                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Saving Your Data...</span>
+                            </button> : <button type="submit" className="add-btn-primary">
+                                <i className="fa-solid fa-save"></i> {editID ? 'Update Student Record' : 'Save Student Record'}
+                            </button>
+                        }
+
                     </center>
                 </div>
             </form>

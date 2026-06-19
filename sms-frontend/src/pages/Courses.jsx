@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import '../css/common.css';
 import '../css/courses.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 function Courses() {
     const navigate = useNavigate();
@@ -33,6 +34,7 @@ function Courses() {
     const [sortBy, setSortBy] = useState('');
 
     const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const [form, setForm] = useState({
         'course-code': '', 'course-name': '', 'credit-hours': '',
@@ -54,6 +56,8 @@ function Courses() {
                 setCourseArray(res.data);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -168,6 +172,16 @@ function Courses() {
                 setCourseArray(updated);
 
                 alert('Course Updated Successfully!');
+
+                setShowModal(false);
+
+                setForm({ 'course-code': '', 'course-name': '', 'credit-hours': '', department: '', instructor: '', semester: '' });
+
+                setErrors({});
+
+                if (editCode) {
+                    navigate('/courses');
+                }
             }
 
             else {
@@ -184,17 +198,11 @@ function Courses() {
             }
 
         } catch (err) {
+            if (err.response?.status === 409) {
+                setErrors({ codeError: 'Course Code Already Registered' }),
+                    alert('Course Code Already Registered')
+            }
             console.log(err);
-        }
-
-        setShowModal(false);
-
-        setForm({ 'course-code': '', 'course-name': '', 'credit-hours': '', department: '', instructor: '', semester: '' });
-
-        setErrors({});
-
-        if (editCode) {
-            navigate('/courses');
         }
     }
 
@@ -214,6 +222,8 @@ function Courses() {
     else if (sortBy === 'name') displayed.sort((a, b) => a.name.localeCompare(b.name));
     else if (sortBy === 'creditHours') displayed.sort((a, b) => a.creditHours - b.creditHours);
 
+
+    if (loading) return <Loader />
 
     return <>
         <div className="list-header-row">

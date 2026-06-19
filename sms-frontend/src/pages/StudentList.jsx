@@ -5,9 +5,11 @@ import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
 import '../css/studentList.css';
+import Loader from '../components/Loader';
 
 function StudentList() {
     const token = localStorage.getItem('token');
+    const [ loading, setLoading ] = useState(true);
 
     let userRole = null;
     if (token) {
@@ -33,6 +35,8 @@ function StudentList() {
                 setStudentArray(res.data);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -88,6 +92,8 @@ function StudentList() {
     if (sortBy === 'age') displayed.sort((a, b) => a.age - b.age);
     if (sortBy === 'name') displayed.sort((a, b) => a.name.localeCompare(b.name));
 
+
+    if(loading) return <Loader />
 
     return <>
         <div className="list-header-row">

@@ -62,6 +62,15 @@ router.post(
             res.status(201).json(teacher);
 
         } catch (err) {
+            if (err.code === 11000) {
+                const duplicateField = Object.keys(err.keyValue)[0]; // returns 'id' or 'email'
+
+                return res.status(409).json({
+                    message: `This ${duplicateField} is already registered.`,
+                    field: duplicateField
+                });
+            }
+
             res.status(400).json({
                 message: err.message
             });
@@ -90,6 +99,15 @@ router.put(
             res.json(updated);
 
         } catch (err) {
+            if (err.code === 11000) {
+                const duplicateField = Object.keys(err.keyValue)[0]; // returns 'id' or 'email'
+
+                return res.status(409).json({
+                    message: `This ${duplicateField} is already registered.`,
+                    field: duplicateField
+                });
+            }
+
             res.status(400).json({
                 message: err.message
             });

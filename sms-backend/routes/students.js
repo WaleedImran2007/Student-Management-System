@@ -10,7 +10,7 @@ const router = express.Router();
 // REST APIs
 
 // GET: All students
-router.get('/', roleMiddleware(['Admin', 'Teacher']) , async (req, res) => {
+router.get('/', roleMiddleware(['Admin', 'Teacher']), async (req, res) => {
     try {
         const students = await Student.find();
         res.json(students);
@@ -35,7 +35,7 @@ router.get('/byDepartment', roleMiddleware(['Admin', 'Teacher', 'Student']), asy
         const data = await Student.aggregate([
             { $group: { _id: '$department', count: { $sum: 1 } } }
         ]);
-        
+
         res.json(data);
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });
@@ -53,7 +53,7 @@ router.get('/recent', roleMiddleware(['Admin', 'Teacher', 'Student']), async (re
 });
 
 // GET: Student by id
-router.get('/:id', async(req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -62,13 +62,13 @@ router.get('/:id', async(req, res) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        if(decoded.role === 'Student' && decoded.userID !== id) {
+        if (decoded.role === 'Student' && decoded.userID !== id) {
             return res.status(403).json({ message: 'Not Authorized' });
         }
-      
-        const student = await Student.findOne( { id } );
 
-        if(!student) return res.status(404).json( {message: 'Student Not Found'} );
+        const student = await Student.findOne({ id });
+
+        if (!student) return res.status(404).json({ message: 'Student Not Found' });
 
         res.json(student);
     } catch (err) {
@@ -79,19 +79,28 @@ router.get('/:id', async(req, res) => {
 
 
 // POST: Add New Student
-router.post('/', roleMiddleware(['Admin']), async(req, res) => {
+router.post('/', roleMiddleware(['Admin']), async (req, res) => {
     try {
         const student = new Student(req.body);
         await student.save();
         res.status(201).json(student);
     } catch (err) {
-        res.status(400).json( { message: err.message } );
+        if (err.code === 11000) {
+            const duplicateField = Object.keys(err.keyValue)[0]; // returns 'id' or 'email'
+
+            return res.status(409).json({
+                message: `This ${duplicateField} is already registered.`,
+                field: duplicateField
+            });
+        }
+
+        res.status(400).json({ message: err.message });
     }
-    
-})
+
+});
 
 // PUT: Update Student
-router.put('/:id', roleMiddleware(['Admin']), async(req, res) => {
+router.put('/:id', roleMiddleware(['Admin']), async (req, res) => {
     try {
         const updated = await Student.findOneAndUpdate(
             { id: req.params.id },
@@ -99,16 +108,25 @@ router.put('/:id', roleMiddleware(['Admin']), async(req, res) => {
             { returnDocument: 'after' }
         )
 
-        if(!updated) return res.status(404).json({message: 'Student Not Found'});
+        if (!updated) return res.status(404).json({ message: 'Student Not Found' });
         res.json(updated);
 
     } catch (err) {
+        if (err.code === 11000) {
+            const duplicateField = Object.keys(err.keyValue)[0]; // returns 'id' or 'email'
+
+            return res.status(409).json({
+                message: `This ${duplicateField} is already registered.`,
+                field: duplicateField
+            });
+        }
+        
         res.status(400).json({ message: err.message });
     }
 });
 
 // DELETE: Delete Student
-router.delete('/:id', roleMiddleware(['Admin']), async(req, res) => {
+router.delete('/:id', roleMiddleware(['Admin']), async (req, res) => {
     try {
         const deleted = await Student.deleteOne({ id: req.params.id });
 
@@ -121,7 +139,7 @@ router.delete('/:id', roleMiddleware(['Admin']), async(req, res) => {
 });
 
 // POST: Add Result to Student
-router.post('/:id/results', roleMiddleware(['Admin', 'Teacher']), async(req, res) => {
+router.post('/:id/results', roleMiddleware(['Admin', 'Teacher']), async (req, res) => {
     try {
         const student = await Student.findOne({ id: req.params.id });
         if (!student) return res.status(404).json({ message: 'Student not found' });
@@ -132,7 +150,7 @@ router.post('/:id/results', roleMiddleware(['Admin', 'Teacher']), async(req, res
             result => result.courseCode === courseCode
         )
 
-        if(alreadyExists) return res.status(400).json({ message: 'Result already exists for this course' })
+        if (alreadyExists) return res.status(400).json({ message: 'Result already exists for this course' })
 
         student.results.push(req.body);
         await student.save();

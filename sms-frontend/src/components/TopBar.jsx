@@ -3,7 +3,7 @@ import '../css/common.css';
 import '../css/responsive.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import api from '../api/axios';
+import axios from 'axios';
 
 import { useContext } from 'react';
 import { AuthContext } from '../store/AuthContext';
@@ -29,7 +29,7 @@ function TopBar() {
                     userID = decoded.userID;
                 }
 
-                const res = await api.get(`/api/auth/${userID}`);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/${userID}`);
 
                 if (res.data && res.data.username) {
                     setUsername(res.data.username);
