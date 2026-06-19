@@ -101,7 +101,8 @@ router.post('/', async (req, res) => {
         console.log("User saved");
         await user.save();
 
-        console.log("About to send email");
+        console.log("About to send mail");
+
         await sendEmail(
             user.email,
             user.verificationToken,
