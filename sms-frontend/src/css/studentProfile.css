@@ -157,3 +157,15 @@
 .gpa-high { color: green; font-weight: bold; }
 .gpa-mid { color: orange; }
 .gpa-low { color: red; }
+
+
+
+@media (max-width: 600px) {
+    .name {
+        font-size: 6vw;
+    }
+
+    .id {
+        font-size: 12px;
+    }
+}

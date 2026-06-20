@@ -103,3 +103,14 @@ c.course-profile-container {
 .student-table tbody tr:hover {
     background: #f9fafb;
 }
+
+
+@media (max-width: 600px) {
+    .course-name {
+        font-size: 6vw;
+    }
+
+    .course-code {
+        font-size: 12px;
+    }
+}
