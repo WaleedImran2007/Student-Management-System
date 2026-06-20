@@ -1,19 +1,11 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async (email, token) => {
-    const transporter = nodemailer.createTransport({
-        host: 'smtp-relay.brevo.com',
-        port: 587,
-        secure: false,
-        auth: {
-            user: process.env.BREVO_USER,
-            pass: process.env.BREVO_PASS,
-        }
-    });
-
     try {
-        await transporter.sendMail({
-            from: process.env.BREVO_USER,
+        await resend.emails.send({
+            from: 'onboarding@resend.dev',  // use this until you add a domain
             to: email,
             subject: 'Verify your Account',
             html: `

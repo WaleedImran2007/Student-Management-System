@@ -98,17 +98,12 @@ router.post('/', async (req, res) => {
             isVerified: false,
         });
 
-        console.log("User saved");
         await user.save();
 
-        console.log("About to send mail");
-
-        await sendEmail(
-            user.email,
-            user.verificationToken,
-        )
-
-        console.log("Email Process Started");
+        // await sendEmail(
+        //     user.email,
+        //     user.verificationToken,
+        // )
 
         return res.status(201).json({
             message: "Account created successfully"
@@ -146,11 +141,11 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        if (!user.isVerified) {
-            return res.status(403).json({
-                message: "Please verify your email first"
-            });
-        }
+        // if (!user.isVerified) {
+        //     return res.status(403).json({
+        //         message: "Please verify your email first"
+        //     });
+        // }
 
         const isMatch = await bcrypt.compare(password, user.password);
 
