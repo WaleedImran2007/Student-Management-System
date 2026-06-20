@@ -11,6 +11,8 @@
     width: 100%;
     min-height: 100vh;
     margin-bottom: 10px;
+
+    align-items: flex-start;
 }
 
 /* LEFT SIDE */
@@ -22,6 +24,12 @@
     padding-top: 10px;
     width: 16%;
     border: 1px solid gray;
+    position: sticky;
+    top: 0;
+
+    height: fit-content;
+    align-self: flex-start;
+    height: 100vh;
 }
 
 .logo {
@@ -81,7 +89,7 @@
 .right-side {
     background-color: #F2F5FA;
     height: 100%;
-    width: 83%;
+    width: 84%;
 }
 
 /* INPUT SECTION */
@@ -95,6 +103,7 @@
     border: 1px solid gray;
     position: sticky;
     top: 0;
+    z-index: 1;
 }
 
 .auth-buttons,

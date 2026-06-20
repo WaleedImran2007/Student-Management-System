@@ -137,6 +137,7 @@
     font-size: 15px;
     color: #1e293b;
     font-weight: 500;
+    word-break: break-all;
 }
 
 .role-chip {
