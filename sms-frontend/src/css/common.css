@@ -78,6 +78,10 @@
     color: black;
 }
 
+.nav-links {
+    transition: all 0.2s ease;
+}
+
 .nav-links i {
     margin-right: 10px;
     width: 20px;
@@ -92,6 +96,7 @@
     margin-left: -12px;
     border-left: 3px solid rgb(74, 74, 241);
     font-weight: 600;
+    margin-right: 10px;
 }
 
 .nav-links.active i {
