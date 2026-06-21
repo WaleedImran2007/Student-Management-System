@@ -55,56 +55,52 @@ function Sidebar() {
                 </Link>
 
                 <div className="navigations">
-                    <NavLink className="nav-links" to="/" end onClick={handleNavClick}>
+                    <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/" end onClick={handleNavClick}>
                         <i className="fa-solid fa-chart-pie"></i> Dashboard
                     </NavLink>
 
                     {
-                        (userRole === 'Admin' || userRole === 'Teacher') && <NavLink className="nav-links" to="/student-list" onClick={handleNavClick}>
+                        (userRole === 'Admin' || userRole === 'Teacher') && <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/student-list" onClick={handleNavClick}>
                             <i className="fa-solid fa-users"></i> Student List
                         </NavLink>
                     }
 
                     {
-                        userRole === 'Admin' && <NavLink className="nav-links" to="/add-student" onClick={handleNavClick}>
+                        userRole === 'Admin' && <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/add-student" onClick={handleNavClick}>
                             <i className="fa-solid fa-user-plus"></i> Add Student
                         </NavLink>
                     }
 
-                    <NavLink className="nav-links" to="/teacher-list" onClick={handleNavClick}>
+                    <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/teacher-list" onClick={handleNavClick}>
                         <i className="fa-solid fa-users"></i> Teacher List
                     </NavLink>
 
                     {
-                        userRole === 'Admin' && <NavLink className="nav-links" to="/add-teacher" onClick={handleNavClick}>
+                        userRole === 'Admin' && <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/add-teacher" onClick={handleNavClick}>
                             <i className="fa-solid fa-user-plus"></i> Add Teacher
                         </NavLink>
                     }
 
-                    <NavLink className="nav-links" to="/courses" onClick={handleNavClick}>
+                    <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/courses" onClick={handleNavClick}>
                         <i className="fa-solid fa-book-bookmark"></i> {userRole !== 'Student' ? 'Manage Courses' : 'View Courses'}
                     </NavLink>
 
-                    <NavLink className="nav-links" to="/attendance" onClick={handleNavClick}>
+                    <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/attendance" onClick={handleNavClick}>
                         <i className="fa-solid fa-calendar-check"></i> {userRole !== 'Student' ? 'Mark Attendance' : 'Check Attendance'}
                     </NavLink>
 
                     {
-                        (userRole === 'Admin' || userRole === 'Teacher') && <NavLink className="nav-links" to="/add-result" end onClick={handleNavClick}>
+                        (userRole === 'Admin' || userRole === 'Teacher') && <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/add-result" end onClick={handleNavClick}>
                             <i className="fa-solid fa-file-invoice"></i> Add Result
                         </NavLink>
                     }
 
-                    <NavLink className="nav-links" to="/grade-criteria" onClick={handleNavClick}>
+                    <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" } to="/grade-criteria" onClick={handleNavClick}>
                         <i className="fa-solid fa-graduation-cap"></i> Grades &amp; GPA
                     </NavLink>
 
-                    <NavLink className="nav-links" to="/sms-ai" onClick={handleNavClick}>
-                        <i className="fa-solid fa-robot"></i> SMS AI
-                    </NavLink>
-
                     {
-                        token ? <NavLink className="nav-links"
+                        token ? <NavLink className={({isActive}) => isActive ? "nav-links active" : "nav-links" }
                             to={
                                 userRole === 'Student' ? `/studentProfile?id=${userID}`
                                     : userRole === 'Teacher' ? `/teacherProfile?id=${userID}`
