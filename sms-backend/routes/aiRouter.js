@@ -332,24 +332,4 @@ router.post('/chat', async (req, res) => {
 });
 
 
-router.get('/chat', async (req, res) => {
-    try {
-        const { userID } = req.user;
-        const chat = await Chat.findOne({ userID });
-
-        if (!chat || !chat.messages) return res.json([{
-            role: 'ai',
-            content: 'Hello 👋 I am your AI Assistant. Ask me anything!'
-        }]);
-
-        res.json(chat.messages);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: "Server error"
-        });
-    }
-
-});
-
 export default router;

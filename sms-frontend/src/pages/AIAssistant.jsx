@@ -10,30 +10,14 @@ function AIAssistant() {
     const { token } = useContext(AuthContext);
 
     const [message, setMessage] = useState("");
-    const [chat, setChat] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const loadChat = async () => {
-            try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/ai/chat`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                setChat(res.data);
-            } catch (err) {
-                console.error("Failed to load chat history", err);
-            } finally {
-                setLoading(false);
-            }
-
+    const [chat, setChat] = useState([
+        {
+            role: 'ai',
+            content: 'Hello 👋 I am your AI Assistant. Ask me anything!'
         }
-
-        loadChat();
-
-    }, [])
+    ]);
+    
+    const [loading, setLoading] = useState(true);
 
 
     const sendMessage = async () => {
