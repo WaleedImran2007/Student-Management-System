@@ -84,6 +84,12 @@
     text-align: center;
 }
 
+.active {
+    background-color: #2563EB;
+    color: white;
+    font-weight: 600;
+}
+
 /* RIGHT SIDE */
 
 .right-side {
