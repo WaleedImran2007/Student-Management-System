@@ -69,10 +69,6 @@ function AIAssistant() {
         <div className="ai-container">
             <div className="chat-box">
 
-                <div className="ai-spinner-container">
-                    <div className="spinner-border ai-spinner" role="status"></div>
-                </div>
-
                 {chat?.map((msg, index) => (
 
                     <div
