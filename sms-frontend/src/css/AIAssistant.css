@@ -9,19 +9,6 @@
     overflow: hidden;
 }
 
-.ai-spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%;
-    width: 100%;
-}
-
-.ai-spinner {
-    width: 120px;
-    height: 120px;
-}
-
 @media (max-width: 590px) {
     .ai-spinner {
         left: 38%;

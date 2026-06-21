@@ -16,8 +16,6 @@ function AIAssistant() {
             content: 'Hello 👋 I am your AI Assistant. Ask me anything!'
         }
     ]);
-    
-    const [loading, setLoading] = useState(true);
 
 
     const sendMessage = async () => {
@@ -71,11 +69,9 @@ function AIAssistant() {
         <div className="ai-container">
             <div className="chat-box">
 
-                {
-                    loading && <div className="ai-spinner-container">
-                        <div className="spinner-border ai-spinner" role="status"></div>
-                    </div>
-                }
+                <div className="ai-spinner-container">
+                    <div className="spinner-border ai-spinner" role="status"></div>
+                </div>
 
                 {chat?.map((msg, index) => (
 
