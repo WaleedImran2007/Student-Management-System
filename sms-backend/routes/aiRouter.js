@@ -80,7 +80,7 @@ router.post('/chat', async (req, res) => {
             user.aiResetDate = tomorrow;
         }
 
-        if (user.aiRequests >= DAILY_AI_LIMIT) {
+        if (user.aiRequests >= DAILY_AI_LIMIT && role !== 'Admin') {
             return res.json({ reply: `Daily AI Limit reached (${DAILY_AI_LIMIT}). Try Again Tomorrow` });
         }
 
@@ -288,30 +288,28 @@ router.post('/chat', async (req, res) => {
 
         const reply = completion.choices[0].message.content;
 
-        const chat = await Chat.findOne({ userID });
-        let messages = chat?.messages || [];
-
-        messages.push(
-            {
-                role: 'user',
-                content: message,
-            },
-
-            {
-                role: 'ai',
-                content: reply,
-            }
-        )
-
-        // keep latest 10 messages
-        messages = messages.slice(-10);
+        // Only Keep Recent 10
 
         await Chat.findOneAndUpdate(
             { userID },
 
             {
                 $push: {
-                    messages,
+                    messages: {
+                        $each: [
+                            {
+                                role: 'user',
+                                content: message,
+                            },
+
+                            {
+                                role: 'ai',
+                                content: reply,
+                            }
+                        ],
+
+                        $slice: -10
+                    }
                 }
             },
             {
@@ -325,8 +323,10 @@ router.post('/chat', async (req, res) => {
 
     } catch (err) {
         console.log("AI ERROR:", err);
-
-        res.status(500).json({ message: "AI response failed" });
+        res.status(err.status || 500).json({
+            code: err.error?.code,
+            message: err.error?.message || err.message || "AI response failed"
+        });
 
     }
 });

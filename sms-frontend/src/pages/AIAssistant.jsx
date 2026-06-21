@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useContext } from "react";
 import { AuthContext } from '../store/AuthContext.jsx';
 import ReactMarkdown from 'react-markdown';
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 function AIAssistant() {
     const { token } = useContext(AuthContext);
@@ -16,6 +16,17 @@ function AIAssistant() {
             content: 'Hello 👋 I am your AI Assistant. Ask me anything!'
         }
     ]);
+
+    const [loading, setLoading] = useState(false);
+
+    const chatBoxRef = useRef(null);
+
+    useEffect(() => {
+        if (chatBoxRef.current) {
+            chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
+        }
+
+    }, [chat])
 
 
     const sendMessage = async () => {
@@ -34,6 +45,8 @@ function AIAssistant() {
         setMessage('');
 
         try {
+            setLoading(true);
+
             const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/ai/chat`, { message: userMessage }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -51,15 +64,25 @@ function AIAssistant() {
             ])
 
         } catch (err) {
-            console.log(err);
+            const apiMessage = err.response?.data?.message || "";
+
+            let errorMessage = "Sorry, AI is not responding 😢";
+
+
+            if (apiMessage.includes("rate_limit_exceeded")) {
+                errorMessage =
+                    "⚠️ AI limit reached. Please try again later.";
+            }
 
             setChat(prev => [
                 ...prev,
                 {
                     role: 'ai',
-                    content: "Sorry, AI is not responding 😢",
+                    content: errorMessage,
                 }
             ])
+        } finally {
+            setLoading(false);
         }
 
     }
@@ -67,7 +90,7 @@ function AIAssistant() {
     return (
 
         <div className="ai-container">
-            <div className="chat-box">
+            <div className="chat-box" ref={chatBoxRef}>
 
                 {chat?.map((msg, index) => (
 
@@ -85,6 +108,12 @@ function AIAssistant() {
                     </div>
 
                 ))}
+
+                {
+                    loading && <div className="message ai">
+                        AI is typing...
+                    </div>
+                }
 
             </div>
 
