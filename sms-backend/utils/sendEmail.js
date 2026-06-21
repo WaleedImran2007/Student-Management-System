@@ -1,8 +1,7 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const sendEmail = async (email, token) => {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     try {
         await resend.emails.send({
             from: 'onboarding@resend.dev',  // use this until you add a domain

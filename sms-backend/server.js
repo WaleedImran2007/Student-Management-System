@@ -12,6 +12,7 @@ import courseRoutes from './routes/courses.js';
 import attendanceRoutes from './routes/attendances.js';
 import authRoutes from './routes/authRouter.js';
 import teacherRoutes from './routes/teachers.js';
+import aiRoutes from './routes/aiRouter.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 
 
@@ -38,6 +39,7 @@ app.use('/api/students' ,studentRoutes);
 app.use('/api/courses' ,courseRoutes);
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/teachers', teacherRoutes);
+app.use('/api/ai', aiRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {

@@ -30,6 +30,7 @@ import LandingPage from './pages/LandingPage.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import VerifyToken from './pages/VerifyToken.jsx';
 import AuthRoute from './components/AuthRoute.jsx';
+import AIAssistant from './pages/AIAssistant.jsx';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,8 @@ const router = createBrowserRouter([
       { path: '/no-permission', element: <NoPermission /> },
       { path: '/adminProfile', element: <ProtectedRoute allowedRoles={['Admin']}><AdminProfile /></ProtectedRoute> },
       { path: '*', element: <NotFound /> },
+      
+      // { path: '/sms-ai', element: <ProtectedRoute allowedRoles={['Admin', 'Teacher', 'Student']}><AIAssistant /></ProtectedRoute>},
     ]
   }
 ])

@@ -1,0 +1,198 @@
+.ai-container {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.ai-spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    width: 100%;
+}
+
+.ai-spinner {
+    width: 120px;
+    height: 120px;
+}
+
+@media (max-width: 590px) {
+    .ai-spinner {
+        left: 38%;
+        width: 100px;
+        height: 100px;
+    }
+}
+
+/* Chat area */
+
+.chat-box {
+    flex: 1;
+    padding: 25px;
+    overflow-y: auto;
+    background: #f5f7fb;
+}
+
+
+/* Messages */
+
+.message {
+    max-width: 70%;
+    padding: 13px 17px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    word-wrap: break-word;
+}
+
+
+.message.user {
+    margin-left: auto;
+    background: #2563eb;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+
+.message.ai {
+    background: white;
+    color: #333;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Input section */
+
+.input-area {
+    display: flex;
+    gap: 12px;
+    padding: 18px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+
+.input-area input {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+
+.input-area input:focus {
+    border-color: #2563eb;
+}
+
+
+.input-area button {
+    width: 100px;
+    border: none;
+    border-radius: 12px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.input-area button:hover {
+    background: #1d4ed8;
+}
+
+
+
+/* ========================= */
+/* Responsive Design */
+/* ========================= */
+
+
+/* Tablets */
+
+@media (max-width: 900px) {
+
+    .ai-container {
+        margin: 15px auto;
+    }
+
+    .message {
+        max-width: 80%;
+    }
+
+}
+
+
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .ai-container {
+        margin: 0;
+        border-radius: 0;
+    }
+
+
+    .ai-header {
+        padding: 18px;
+    }
+
+
+    .ai-header h2 {
+        font-size: 20px;
+    }
+
+
+    .chat-box {
+        padding: 15px;
+    }
+
+
+    .message {
+        max-width: 88%;
+        font-size: 14px;
+        padding: 11px 14px;
+
+    }
+
+
+    .input-area {
+        padding: 12px;
+        gap: 8px;
+
+    }
+
+
+    .input-area input {
+        padding: 12px;
+        font-size: 14px;
+
+    }
+
+
+    .input-area button {
+        width: 75px;
+        font-size: 14px;
+    }
+
+
+}
+
+
+/* Very small screens */
+
+@media (max-width: 380px) {
+    .input-area input {
+        width: 80%;
+    }
+}

@@ -107,55 +107,6 @@ Student-Management-System
 
 ---
 
-## ⚙️ Installation & Setup
-
-### Clone Repository
-
-```bash
-git clone YOUR_REPOSITORY_URL
-
-cd Student-Management-System
-```
-
----
-
-## Backend Setup
-
-```bash
-cd sms-backend
-
-npm install
-```
-
-Create `.env` file:
-
-```
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-```
-
-Run backend:
-
-```bash
-npm start
-```
-
----
-
-## Frontend Setup
-
-Open another terminal:
-
-```bash
-cd sms-frontend
-
-npm install
-
-npm run dev
-```
-
----
 
 ## 🔑 User Roles
 
@@ -188,7 +139,6 @@ npm run dev
 * Password reset
 * More analytics
 * File uploads
-* Mobile responsive improvements
 
 ---
 

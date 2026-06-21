@@ -99,6 +99,10 @@ function Sidebar() {
                         <i className="fa-solid fa-graduation-cap"></i> Grades &amp; GPA
                     </NavLink>
 
+                    <NavLink className="nav-links" to="/sms-ai" onClick={handleNavClick}>
+                        <i className="fa-solid fa-robot"></i> SMS AI
+                    </NavLink>
+
                     {
                         token ? <NavLink className="nav-links"
                             to={

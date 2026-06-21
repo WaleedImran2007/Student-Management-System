@@ -41,6 +41,20 @@ const userSchema = new mongoose.Schema(
 
         verificationToken: {
             type: String,
+        },
+
+        aiRequests: {
+            type: Number,
+            default: 0,
+        },
+
+        aiResetDate: {
+            type: Date,
+            default: () => {
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                return tomorrow;
+            }
         }
     },
     {
