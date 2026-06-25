@@ -244,6 +244,9 @@ async function detectIntent(message, groq) {
  
         Message: "Hello!"
         Response: { "intent": "GENERAL_CHAT" }
+
+        Message: "Generate my report"
+        Response: {"intent": "STUDENT_REPORT}"
  
         Message: "${message}"
     `;
@@ -310,7 +313,10 @@ async function lowAttendanceTool({ role }) {
 }
 
 async function studentReportTool({ role, username, groqRequest }) {
-    const studentName = groqRequest.studentName;
+    const studentName = groqRequest.studentName || username;
+
+    console.log(groqRequest);
+    console.log(studentName);
 
     if (role === 'Student' && studentName.toLowerCase() !== username.toLowerCase()) {
         return { error: 'You can only view your own report.' };
@@ -437,14 +443,14 @@ const FORBIDDEN_PATTERNS = [
 
 // ─── TOOLS REGISTRY ────────────
 const tools = {
-    TOP_STUDENT:    topStudentTool,
+    TOP_STUDENT: topStudentTool,
     LOW_ATTENDANCE: lowAttendanceTool,
     STUDENT_REPORT: studentReportTool,
-    STUDENT_CGPA:   studentCGPATool,
-    STUDENT_COUNT:  studentCountTool,
+    STUDENT_CGPA: studentCGPATool,
+    STUDENT_COUNT: studentCountTool,
     GRADE_CRITERIA: gradeCriteriaTool,
     DATABASE_QUERY: databaseQueryTool,
-    GENERAL_CHAT:   generalChatTool,
+    GENERAL_CHAT: generalChatTool,
 }
 
 
@@ -507,13 +513,13 @@ router.post('/chat', async (req, res) => {
             return res.json({ reply: "I don't know how to handle this request." });
         }
 
-        const result = await handler({role, username, userID, groqRequest});
+        const result = await handler({ role, username, userID, groqRequest });
 
         // Tool returned a direct reply — skip AI entirely
         if (result.directReply) {
             return res.json({ reply: result.directReply });
         }
- 
+
         // Tool returned an error — send it back immediately
         if (result.error) {
             return res.json({ reply: result.error });
