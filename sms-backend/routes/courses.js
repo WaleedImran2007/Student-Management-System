@@ -5,8 +5,19 @@ import { roleMiddleware } from '../middleware/roleMiddleware.js';
 
 const router = express.Router();
 
-// REST APIs
+function getGradePoint(marks) {
+    if (marks >= 85 && marks <= 100) return 4.0;
+    if (marks >= 80) return 3.7;
+    if (marks >= 75) return 3.3;
+    if (marks >= 70) return 3.0;
+    if (marks >= 65) return 2.7;
+    if (marks >= 60) return 2.3;
+    if (marks >= 55) return 2.0;
+    if (marks >= 50) return 1.7;
+    return 0.0; // Fail
+}
 
+// REST APIs
 // GET: ALL COURSES
 router.get('/', roleMiddleware(['Admin', 'Teacher', 'Student']), async (req, res) => {
     try {
@@ -26,6 +37,33 @@ router.get('/totalCourses', roleMiddleware(['Admin', 'Teacher', 'Student']), asy
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
+
+// POST: GET CREDIT HOURS AND GPA. USER WILL GIVE US MARKS AND COURSE CODE
+router.post('/getGpaAndCredit', roleMiddleware(['Admin', 'Teacher']), async (req, res) => {
+    try {
+        const { code, marks } = req.body;
+        if (!code || marks === undefined) {
+            return res.status(400).json({ message: 'Course code and marks are required.' });
+        }
+
+        const course = await Course.findOne({code}).select('creditHours');
+        if(!course) {
+            return res.status(404).json({message: 'Course Not Found'});
+        } 
+
+        const creditHours = course.creditHours;
+        const gpa = getGradePoint(marks);
+
+        return res.status(200).json({
+            creditHours,
+            gpa
+        });
+
+    } catch (err) {
+        console.error('Error in getGpaAndCredit:', err);
+        return res.status(500).json({ message: 'Internal Server Error', error: err.message });
+    }
+})
 
 // GET: COURSE BY CODE
 router.get('/:code', roleMiddleware(['Admin', 'Teacher', 'Student']), async (req, res) => {

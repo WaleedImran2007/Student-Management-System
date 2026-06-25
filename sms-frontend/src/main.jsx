@@ -26,7 +26,6 @@ import NoPermission from './pages/NoPermission.jsx'
 import AdminProfile from './pages/AdminProfile.jsx'
 import NotFound from './pages/NotFound.jsx'
 import LandingPage from './pages/LandingPage.jsx'
-
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import VerifyToken from './pages/VerifyToken.jsx';
 import AuthRoute from './components/AuthRoute.jsx';

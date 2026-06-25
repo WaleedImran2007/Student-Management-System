@@ -71,11 +71,19 @@ const studentSchema = new mongoose.Schema(
                     required: true
                 },
 
+                creditHours: {
+                    type: Number
+                },
+
                 marks: {
                     type: Number,
                     required: true,
                     min: 0,
                     max: 100
+                },
+
+                gpa: {
+                    type: Number,
                 }
             }
         ]

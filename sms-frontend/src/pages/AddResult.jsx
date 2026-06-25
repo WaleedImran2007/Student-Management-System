@@ -69,9 +69,17 @@ function AddResult() {
         }
 
         try {
+            const { data } = await axios.post(`${courseAPI}/getGpaAndCredit`,{code: courseCode, marks: marks} , {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const { creditHours, gpa } = data;
+
             await axios.post(
                 `${studentAPI}/${studentID}/results`,
-                { courseCode, marks }, {
+                { courseCode, marks, creditHours, gpa }, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
