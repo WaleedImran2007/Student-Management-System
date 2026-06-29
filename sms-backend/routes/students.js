@@ -152,6 +152,20 @@ router.post('/:id/results', roleMiddleware(['Admin', 'Teacher']), async (req, re
 
         if (alreadyExists) return res.status(400).json({ message: 'Result already exists for this course' })
 
+        let totalGradePoints = 0;
+        let totalCreditHours = 0;
+
+        for (const result of student.results) {
+            totalGradePoints += result.gpa * result.creditHours;
+            totalCreditHours += result.creditHours;
+        }
+
+        student.cgpa = Number(
+            (totalGradePoints/totalCreditHours).toFixed(2)
+        );
+
+        await student.save();
+
         student.results.push(req.body);
         await student.save();
         res.status(201).json(student);

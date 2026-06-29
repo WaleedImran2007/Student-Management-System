@@ -15,6 +15,8 @@ import teacherRoutes from './routes/teachers.js';
 import aiRoutes from './routes/aiRouter.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 
+import { connectDB } from './config/db.js';
+
 
 dotenv.config();
 const app = express();
@@ -35,17 +37,14 @@ app.use('/api/auth', authRoutes);
 
 app.use(authMiddleware); // checks whether user logged in or not
 
-app.use('/api/students' ,studentRoutes);
-app.use('/api/courses' ,courseRoutes);
+app.use('/api/students', studentRoutes);
+app.use('/api/courses', courseRoutes);
 app.use('/api/attendances', attendanceRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/ai', aiRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log('MongoDB connected');
-        app.listen(process.env.PORT || 5000, () => {
-            console.log(`Server running on port ${process.env.PORT || 5000}`);
-        })
-    })
-    .catch(err => console.error(err));
+await connectDB();
+
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server running on port ${process.env.PORT || 5000}`);
+})

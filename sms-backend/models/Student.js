@@ -64,6 +64,11 @@ const studentSchema = new mongoose.Schema(
             ]
         },
 
+        cgpa: {
+            type: Number,
+            default: 0.0
+        },
+
         results: [
             {
                 courseCode: {

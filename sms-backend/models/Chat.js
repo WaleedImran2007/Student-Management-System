@@ -6,6 +6,18 @@ const chatSchema = mongoose.Schema({
         required: true
     },
 
+    memory: {
+        parameters: {
+            type: Object,
+            default: {},
+        },
+
+        filters: {
+            type: Object,
+            default: {}
+        }
+    },
+
     messages: [
         {
             role: {
