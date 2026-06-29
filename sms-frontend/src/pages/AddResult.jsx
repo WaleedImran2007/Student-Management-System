@@ -19,6 +19,8 @@ function AddResult() {
 
     const [courseArray, setCourseArray] = useState([]);
 
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
 
         const fetchData = async () => {
@@ -40,6 +42,7 @@ function AddResult() {
     }
 
     async function handleSubmit(e) {
+        setLoading(true);
         console.log('Submitting your result');
         e.preventDefault();
 
@@ -65,11 +68,12 @@ function AddResult() {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
         try {
-            const { data } = await axios.post(`${courseAPI}/getGpaAndCredit`,{code: courseCode, marks: marks} , {
+            const { data } = await axios.post(`${courseAPI}/getGpaAndCredit`, { code: courseCode, marks: marks }, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -80,10 +84,10 @@ function AddResult() {
             await axios.post(
                 `${studentAPI}/${studentID}/results`,
                 { courseCode, marks, creditHours, gpa }, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                headers: {
+                    Authorization: `Bearer ${token}`
                 }
+            }
             );
 
             alert('Result added Successfully');
@@ -104,6 +108,8 @@ function AddResult() {
             } else {
                 alert('Failed to add result');
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -134,9 +140,14 @@ function AddResult() {
 
                 <div className="form-actions">
                     <center>
-                        <button type="submit" className="add-btn-primary">
-                            <i className="fa-solid fa-save"></i> Save Result
-                        </button>
+                        {
+                            loading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Authenticating...</span>
+                            </button> : <button type="submit" className="add-btn-primary">
+                                <i className="fa-solid fa-save"></i> Save Result
+                            </button>
+                        }
                     </center>
                 </div>
             </form>

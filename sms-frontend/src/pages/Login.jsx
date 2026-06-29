@@ -22,6 +22,8 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
     function handleChange(e) {
         setForm({ ...form, [e.target.id]: e.target.value });
 
@@ -34,6 +36,8 @@ const Login = () => {
 
     async function handleSubmit(e) {
         e.preventDefault();
+
+        setLoading(true);
 
         const newErrors = {};
         const { email, password } = form;
@@ -48,6 +52,7 @@ const Login = () => {
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
+            setLoading(false);
             return;
         }
 
@@ -71,15 +76,17 @@ const Login = () => {
 
             if (err.response?.status === 401) {
                 setErrors({ emailError: 'Invalid email or password' });
-            } 
-            
-            else if(err.response?.status === 403) {
+            }
+
+            else if (err.response?.status === 403) {
                 setErrors({ emailError: 'Please Verify Your Email First' });
             }
-            
+
             else {
                 alert('Server error. Try again later.');
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -120,9 +127,15 @@ const Login = () => {
                             <span className='error-msg'>{errors.passwordError}</span>
                         )}
 
-                        <button type="submit">
-                            Login
-                        </button>
+                        {
+                            loading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Authenticating...</span>
+                            </button> : <button type="submit">
+                                Login
+                            </button>
+                        }
+
                     </form>
 
                     <div className="auth-footer">

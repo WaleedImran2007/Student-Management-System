@@ -34,6 +34,7 @@ function Attendance() {
     const [studentArray, setStudentArray] = useState();
     const [attendanceMap, setAttendanceMap] = useState({});
     const [loading, setLoading] = useState(true);
+    const [saveLoading, setSaveLoading] = useState(false);
 
     useEffect(() => { // FETCHING STUDENTS
         const fetchStudents = async () => {
@@ -122,6 +123,7 @@ function Attendance() {
 
 
     async function saveAttendance() {
+        setSaveLoading(true);
         try {
             const attendanceRecords = studentArray.map(s => ({
                 studentID: parseInt(s.id),
@@ -164,10 +166,14 @@ function Attendance() {
             console.error("Error saving attendance", err);
             alert("Failed to save attendance.");
         }
+
+        finally {
+            setSaveLoading(false);
+        }
     }
 
 
-    if(loading) return <Loader />
+    if (loading) return <Loader />
 
     return <>
         <div className="list-header-row">
@@ -231,9 +237,14 @@ function Attendance() {
             {
                 userRole !== 'Student' && <div className="form-actions" style={{ marginTop: '24px' }}>
                     <center>
-                        <button id="saveAttendanceBtn" className="add-btn-primary" onClick={saveAttendance}>
+                        {
+                            saveLoading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary" type="button" disabled>
+                                <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                                <span role="status">Saving Attendance Record...</span>
+                            </button> : <button id="saveAttendanceBtn" className="add-btn-primary" onClick={saveAttendance}>
                             <i className="fa-solid fa-save"></i> Save Attendance Sheet
                         </button>
+                        }
                     </center>
                 </div>
             }
