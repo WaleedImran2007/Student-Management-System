@@ -143,7 +143,7 @@ function AddResult() {
                         {
                             loading ? <button style={{ display: 'flex', gap: '10px', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary" type="button" disabled>
                                 <span className="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                                <span role="status">Authenticating...</span>
+                                <span role="status">Saving...</span>
                             </button> : <button type="submit" className="add-btn-primary">
                                 <i className="fa-solid fa-save"></i> Save Result
                             </button>
