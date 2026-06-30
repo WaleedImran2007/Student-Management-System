@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import '../css/studentProfile.css'
 import hero from "../assets/hero.png";
 import { useEffect } from "react";
-import axios from "axios";
+import api from '../api/api.js';
 import { useState } from "react";
 import Loader from "../components/Loader";
 
@@ -15,9 +15,6 @@ const StudentProfile = () => {
 
     const token = localStorage.getItem('token');
 
-    const studentAPI = `${import.meta.env.VITE_API_URL}/api/students`;
-    const courseAPI = `${import.meta.env.VITE_API_URL}/api/courses`;
-
     const [student, setStudent] = useState({});
     const [courseArray, setCourseArray] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -26,17 +23,9 @@ const StudentProfile = () => {
 
         const fetchData = async () => {
             try {
-                const studentRes = await axios.get(`${studentAPI}/${profileID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentRes = await api.get(`/students/${profileID}`);
 
-                const courseRes = await axios.get(`${courseAPI}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const courseRes = await api.get('/courses');
 
                 setStudent(studentRes.data);
                 setCourseArray(courseRes.data);

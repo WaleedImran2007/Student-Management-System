@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/common.css';
 import '../css/addStudent.css';
-import axios from 'axios';
+import api from '../api/api.js';
 
 function AddResult() {
     const navigate = useNavigate();
@@ -24,11 +24,7 @@ function AddResult() {
     useEffect(() => {
 
         const fetchData = async () => {
-            const courseRes = await axios.get(courseAPI, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const courseRes = await api.get('/courses');
 
             setCourseArray(courseRes.data);
         }
@@ -73,22 +69,13 @@ function AddResult() {
         }
 
         try {
-            const { data } = await axios.post(`${courseAPI}/getGpaAndCredit`, { code: courseCode, marks: marks }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            const { data } = await api.post(`/courses/getGpaAndCredit`, { code: courseCode, marks: marks });
 
             const { creditHours, gpa } = data;
 
-            await axios.post(
-                `${studentAPI}/${studentID}/results`,
-                { courseCode, marks, creditHours, gpa }, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-            );
+            await api.post(
+                `/students/${studentID}/results`,
+                { courseCode, marks, creditHours, gpa });
 
             alert('Result added Successfully');
 

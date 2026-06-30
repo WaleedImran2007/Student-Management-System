@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import "../css/courseProfile.css";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from '../api/api.js';
 import { jwtDecode } from "jwt-decode";
 import Loader from "../components/Loader";
 
@@ -21,9 +21,6 @@ const CourseProfile = () => {
         userID = decoded.userID;
     }
 
-    const studentAPI = `${import.meta.env.VITE_API_URL}/api/students`;
-    const courseAPI = `${import.meta.env.VITE_API_URL}/api/courses`;
-
     const [studentArray, setStudentArray] = useState([]);
     const [course, setCourse] = useState({});
     const [loading, setLoading] = useState(true);
@@ -31,11 +28,7 @@ const CourseProfile = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const courseRes = await axios.get(`${courseAPI}/${courseCode}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const courseRes = await api.get(`/courses/${courseCode}`);
 
                 setCourse(courseRes.data);
 
@@ -46,11 +39,7 @@ const CourseProfile = () => {
 
         const fetchStudents = async () => {
             try {
-                const studentRes = await axios.get(studentAPI, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentRes = await api.get('/students');
 
                 setStudentArray(studentRes.data);
             }
@@ -62,11 +51,7 @@ const CourseProfile = () => {
 
         const fetchMyStudent = async () => {
             try {
-                const studentRes = await axios.get(`${studentAPI}/${userID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentRes = await api.get(`/students/${userID}`);
 
                 setStudentArray([studentRes.data]);
             }

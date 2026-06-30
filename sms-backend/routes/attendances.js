@@ -84,7 +84,13 @@ router.get('/weeklyTrend', roleMiddleware(['Admin', 'Teacher', 'Student']), asyn
 router.get('/:date', roleMiddleware(['Admin', 'Teacher', 'Student']), async (req, res) => {
     try {
         const attendance = await Attendance.findOne({ date: req.params.date });
-        if (!attendance) res.status(404).json({ message: 'Attendance not Found' });
+
+        if (!attendance) {
+            return res.status(404).json({
+                message: 'Attendance not Found'
+            });
+        }
+        
         res.json(attendance);
     } catch (err) {
         res.status(500).json({ message: 'Server error', error: err.message });

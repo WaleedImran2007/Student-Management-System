@@ -6,7 +6,7 @@ import '../css/dashboard.css';
 import '../css/responsive.css';
 
 import { AuthContext } from '../store/AuthContext';
-import axios from 'axios';
+import api from '../api/api.js';
 import { useAsyncValue } from 'react-router-dom';
 import Loader from '../components/Loader';
 
@@ -30,8 +30,6 @@ function Dashboard() {
 
     const { token } = useContext(AuthContext);
 
-    const API = `${import.meta.env.VITE_API_URL}/api`;
-
     useEffect(() => {
         if (!token) return;
 
@@ -39,42 +37,18 @@ function Dashboard() {
             try {
                 const headers = { Authorization: `Bearer ${token}` };
 
-                const studentsRes = await axios.get(`${API}/students/totalStudents`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentsRes = await api.get(`/students/totalStudents`);
 
-                const coursesRes = await axios.get(`${API}/courses/totalCourses`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const coursesRes = await api.get(`/courses/totalCourses`);
 
-                const presentRes = await axios.get(`${API}/attendances/todayPresent`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const presentRes = await api.get(`/attendances/todayPresent`);
 
 
-                const recentRes = await axios.get(`${API}/students/recent`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const recentRes = await api.get(`/students/recent`);
 
-                const deptRes = await axios.get(`${API}/students/byDepartment`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const deptRes = await api.get(`/students/byDepartment`);
 
-                const trendRes = await axios.get(`${API}/attendances/weeklyTrend`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const trendRes = await api.get(`/attendances/weeklyTrend`);
 
                 if (studentsRes) setTotalStudents(studentsRes.data);
                 if (coursesRes) setActiveCourses(coursesRes.data);

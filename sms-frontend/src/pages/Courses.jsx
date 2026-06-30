@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
@@ -26,8 +26,6 @@ function Courses() {
         }
     }
 
-    const API = `${import.meta.env.VITE_API_URL}/api/courses`;
-
     const [courseArray, setCourseArray] = useState([]);
 
     const [filterText, setFilterText] = useState('');
@@ -47,11 +45,7 @@ function Courses() {
 
         async function fetchCourses() {
             try {
-                const res = await axios.get(API, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get('/courses');
 
                 setCourseArray(res.data);
             } catch (err) {
@@ -65,11 +59,7 @@ function Courses() {
             if (!editCode) return;
 
             try {
-                const res = await axios.get(`${API}/${editCode}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get(`/courses/${editCode}`);
 
                 const course = res.data;
 
@@ -101,11 +91,7 @@ function Courses() {
 
     async function deleteCourse(code) {
         try {
-            await axios.delete(`${API}/${code}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await api.delete(`/courses/${code}`);
 
             const updated = courseArray.filter(c => c.code !== code);
             setCourseArray(updated);
@@ -155,11 +141,7 @@ function Courses() {
 
         try {
             if (editCode) {
-                const res = await axios.put(`${API}/${editCode}`, newCourse, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.put(`/courses/${editCode}`, newCourse);
 
                 const updated = [...courseArray];
 
@@ -185,11 +167,7 @@ function Courses() {
             }
 
             else {
-                const res = await axios.post(API, newCourse, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.post('/courses', newCourse);
 
                 const updated = [...courseArray, res.data];
                 setCourseArray(updated);

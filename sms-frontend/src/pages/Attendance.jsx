@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
@@ -11,9 +11,6 @@ function Attendance() {
     const navigate = useNavigate();
 
     const today = new Date().toISOString().split('T')[0];
-
-    const studentAPI = `${import.meta.env.VITE_API_URL}/api/students`;
-    const attendanceAPI = `${import.meta.env.VITE_API_URL}/api/attendances`;
 
     const token = localStorage.getItem('token');
 
@@ -39,11 +36,7 @@ function Attendance() {
     useEffect(() => { // FETCHING STUDENTS
         const fetchStudents = async () => {
             try {
-                const studentRes = await axios.get(studentAPI, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentRes = await api.get('/students');
 
                 setStudentArray(studentRes.data);
             } catch (err) {
@@ -55,11 +48,7 @@ function Attendance() {
 
         const fetchMyAttendance = async () => {
             try {
-                const studentRes = await axios.get(`${studentAPI}/${userID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const studentRes = await api.get(`/students/${userID}`);
 
                 setStudentArray([studentRes.data]);
             } catch (err) {
@@ -83,11 +72,7 @@ function Attendance() {
                 });
 
                 try {
-                    const attendanceRes = await axios.get(`${attendanceAPI}/${selectedDate}`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    });
+                    const attendanceRes = await api.get(`/attendances/${selectedDate}`);
 
                     const dayRecord = attendanceRes.data;
 
@@ -135,28 +120,16 @@ function Attendance() {
             let recordExists = false;
 
             try {
-                await axios.get(`${attendanceAPI}/${selectedDate}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.get(`/attendances/${selectedDate}`);
                 recordExists = true;
             } catch (err) {
                 if (err.response?.status !== 404) throw err;
             }
 
             if (recordExists) {
-                await axios.put(`${attendanceAPI}/${selectedDate}`, newAttendance, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.put(`/attendances/${selectedDate}`, newAttendance);
             } else {
-                await axios.post(attendanceAPI, newAttendance, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.post('/attendances', newAttendance);
             }
 
             alert(`Attendance for Date ${selectedDate} is saved successfully`);

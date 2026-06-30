@@ -5,7 +5,7 @@ export const authMiddleware = (req, res, next) => {
         // 1. when frontend requests backend it send headers too
         const authHeader = req.headers.authorization;
 
-        if(!authHeader) {
+        if (!authHeader) {
             return res.status(401).json({
                 message: "No token provided"
             });
@@ -30,8 +30,16 @@ export const authMiddleware = (req, res, next) => {
     }
 
     catch (err) {
+        if (err.name === "TokenExpiredError") {
+            return res.status(401).json({
+                code: "TOKEN_EXPIRED",
+                message: "Your session has expired. Please login again."
+            });
+        }
+
         return res.status(401).json({
-            message: "Token expired or invalid"
+            code: "INVALID_TOKEN",
+            message: "Invalid token."
         });
     }
 }

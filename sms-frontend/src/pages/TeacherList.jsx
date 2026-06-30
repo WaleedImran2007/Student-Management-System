@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
@@ -9,7 +9,6 @@ import Loader from '../components/Loader';
 
 function TeacherList() {
     const navigate = useNavigate();
-    const API = `${import.meta.env.VITE_API_URL}/api/teachers`;
 
     const [teacherArray, setTeacherArray] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -27,11 +26,7 @@ function TeacherList() {
     useEffect(() => {
         const fetchTeachers = async () => {
             try {
-                const res = await axios.get(API, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get('/teachers');
 
                 setTeacherArray(res.data);
 
@@ -51,11 +46,7 @@ function TeacherList() {
 
     async function deleteTeacher(id) {
         try {
-            await axios.delete(`${API}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await api.delete(`/teachers/${id}`);
 
             const updated = teacherArray.filter(
                 teacher => teacher.id !== id

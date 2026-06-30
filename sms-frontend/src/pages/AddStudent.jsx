@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
 import '../css/addStudent.css';
-import axios from 'axios';
+import api from '../api/api.js';
 
 function AddStudent() {
     const token = localStorage.getItem('token');
@@ -43,11 +43,7 @@ function AddStudent() {
             if (!editID) return;
 
             try {
-                const res = await axios.get(`${API}/${editID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get(`/students/${editID}`);
 
                 const student = res.data;
 
@@ -125,21 +121,13 @@ function AddStudent() {
             setLoading(true);
 
             if (editID) {
-                await axios.put(`${API}/${editID}`, newStudent, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.put(`/students/${editID}`, newStudent);
 
                 alert('Student updated successfully!');
             }
 
             else {
-                await axios.post(API, newStudent, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.post('/students', newStudent);
 
                 alert('Student added successfully!');
             }

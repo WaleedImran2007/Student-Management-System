@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import '../css/studentProfile.css';
 import hero from "../assets/hero.png";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from '../api/api.js';
 import Loader from "../components/Loader";
 
 const TeacherProfile = () => {
@@ -13,8 +13,6 @@ const TeacherProfile = () => {
 
     const token = localStorage.getItem('token');
 
-    const teacherAPI = `${import.meta.env.VITE_API_URL}/api/teachers`;
-
     const [teacher, setTeacher] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -22,12 +20,7 @@ const TeacherProfile = () => {
 
         const fetchTeacher = async () => {
             try {
-
-                const res = await axios.get(`${teacherAPI}/${profileID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get(`/teachers/${profileID}`);
 
                 setTeacher(res.data);
 

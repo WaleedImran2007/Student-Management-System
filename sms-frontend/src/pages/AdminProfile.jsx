@@ -5,15 +5,13 @@ import '../css/common.css';
 import '../css/adminProfile.css';
 import '../css/responsive.css';
 import Loader from '../components/Loader';
-import axios from 'axios';
+import api from '../api/api.js';
 
 function AdminProfile() {
     const { token, logout } = useContext(AuthContext);
     const [admin, setAdmin] = useState(null);
     const [stats, setStats] = useState({ students: 0, courses: 0, teachers: 0 });
     const [loading, setLoading] = useState(true);
-
-    const SAME_API = `${import.meta.env.VITE_API_URL}/api`;
 
     useEffect(() => {
         if (!token) return;
@@ -23,26 +21,14 @@ function AdminProfile() {
                 const decoded = jwtDecode(token);
                 const headers = { Authorization: `Bearer ${token}` };
 
-                const userRes = await axios.get(`${SAME_API}/auth/${decoded.userID}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const userRes = await api.get(`/auth/${decoded.userID}`);
 
                 setAdmin(userRes?.data || { username: decoded.email?.split('@')[0], email: decoded.email, role: 'Admin', id: decoded.userID });
 
                 const [sRes, cRes] = await Promise.allSettled([
-                    axios.get(`${SAME_API}/students/totalStudents`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }),
+                    api.get(`/students/totalStudents`),
 
-                    axios.get(`${SAME_API}/courses/totalCourses`, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }),
+                    api.get(`/courses/totalCourses`),
                 ]);
 
                 setStats({

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api.js';
 import { jwtDecode } from 'jwt-decode';
 
 import '../css/common.css';
@@ -18,7 +18,6 @@ function StudentList() {
     }
 
     const navigate = useNavigate();
-    const API = `${import.meta.env.VITE_API_URL}/api/students`;
 
     const [studentArray, setStudentArray] = useState([]);
 
@@ -26,11 +25,7 @@ function StudentList() {
     useEffect(() => {
         const fetchStudents = async () => {
             try {
-                const res = await axios.get(API, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const res = await api.get('/students');
 
                 setStudentArray(res.data);
             } catch (err) {
@@ -50,11 +45,7 @@ function StudentList() {
 
     async function deleteStudent(id) {
         try {
-            await axios.delete(`${API}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
+            await api.delete(`/students/${id}`);
 
             const updated = studentArray.filter(student => student.id !== id);
 

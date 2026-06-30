@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/api.js';
 
 import '../css/common.css';
 import '../css/addStudent.css';
 
 function AddTeacher() {
     const navigate = useNavigate();
-    const API = `${import.meta.env.VITE_API_URL}/api/teachers`;
 
     const location = useLocation();
     const query = new URLSearchParams(location.search);
@@ -37,7 +36,7 @@ function AddTeacher() {
             if (!editID) return;
 
             try {
-                const res = await axios.get(`${API}/${editID}`, {
+                const res = await api.get(`/teachers/${editID}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -134,19 +133,11 @@ function AddTeacher() {
             setLoading(true);
 
             if (editID) {
-                await axios.put(`${API}/${editID}`, newTeacher, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.put(`/teachers/${editID}`, newTeacher);
 
                 alert('Teacher updated successfully!');
             } else {
-                await axios.post(API, newTeacher, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await api.post('/teachers', newTeacher);
 
                 alert('Teacher added successfully!');
             }

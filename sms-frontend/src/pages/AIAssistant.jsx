@@ -1,6 +1,6 @@
 import { useState } from "react";
 import '../css/AIAssistant.css';
-import axios from 'axios';
+import api from '../api/api.js';
 import { useContext } from "react";
 import { AuthContext } from '../store/AuthContext.jsx';
 import ReactMarkdown from 'react-markdown';
@@ -47,11 +47,7 @@ function AIAssistant() {
         try {
             setLoading(true);
 
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/ai/chat`, { userMessage }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
+            const res = await api.post(`/ai/chat`, { userMessage });
 
             const aiMessage = res.data.reply;
 
